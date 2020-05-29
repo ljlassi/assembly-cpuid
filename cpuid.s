@@ -1,18 +1,18 @@
 .section .data
-output:
-	.ascii "The processor vendor ID is: 'xxxxxxxxxxxx' \n"
+cpu_vendor:
+	.ascii "The processor vendor ID is: 'xxxxxxxxxxx' \n"
 .section .text
 .globl _start
 _start:
 	movl $0, %eax
 	cpuid
-	movl $output, %edi
+	movl $cpu_vendor, %edi
 	movl %ebx, 28(%edi)
 	movl %edx, 32(%edi)
 	movl %ecx, 36(%edi)
 	movl $4, %eax
 	movl $1, %ebx
-	movl $output, %ecx
+	movl $cpu_vendor, %ecx
 	movl $42, %edx
 	int $0x80
 	movl $42, %edx
