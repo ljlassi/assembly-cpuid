@@ -36,6 +36,15 @@ _start:
 	add $8, %rsp
 	call PRINT_LINE_CHANGE
 
+	movl $4, %eax
+	movl $1, %ebx
+	movl $cpu_highest_calling_value, %ecx
+	movl $2, %edx
+	int $0x80
+
+	add $8, %rsp
+	call PRINT_LINE_CHANGE
+
 	jmp EXIT
 
 	PRINT_LINE_CHANGE:
