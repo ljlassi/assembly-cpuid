@@ -1,10 +1,10 @@
 .section .data
   HEX_OUT:
-    .int 0x0000
+    .int 0
 
-  .section .text
-  .globl _start
-  _start:
+    .section .text
+     .globl _start
+    _start:
 
 movw $0x1fb7, %dx    # Set the value we want to print to dx
 call print_hex    # Print the hex value
@@ -45,14 +45,14 @@ add $7, %bx   # If its a letter, add 7
 jl set_letter
 
 set_letter:
-add %al, %bl  # Add the value of the byte to the char at bx
+add %ax, %bx  # Add the value of the byte to the char at bx
 
-cmp 0, %cx          # check the counter, compare with 0
+cmp $0, %cx        #   check the counter, compare with 0
 je print_hex_done # if the counter is 0, finish
 jmp char_loop     # otherwise, loop again
 
 print_hex_done:
-movw HEX_OUT, %bx   # print the string pointed to by bx
+movb HEX_OUT, %bl   # print the string pointed to by bx
 call print_string
 
 pop %rdi

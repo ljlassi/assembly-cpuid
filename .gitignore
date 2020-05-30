@@ -1,3 +1,4 @@
 *.o
 print_hex
 cpuid
+a.out
