@@ -4,7 +4,8 @@ section .text
 _start:
 	mov eax, 0
 	cpuid
-	;mov edi, cpu_vendor
+	pop rdi
+	mov [cpu_vendor], edi
 	;mov eax, cpu_highest_calling_value
 	; mov 28[edi], ebx
 	; mov 32[edi], edx
@@ -15,7 +16,12 @@ _start:
 	mov edx, 29
 	int 0x80
 
-	add rsp, 8
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, cpu_vendor
+	mov edx, 12
+	int 0x80
+
 	call print_line_change
 
 	mov eax, 4
@@ -24,7 +30,6 @@ _start:
 	mov edx, 31
 	int 0x80
 
-	add rsp, 8
 	call print_line_change
 
 	mov eax, 4
@@ -33,7 +38,6 @@ _start:
 	mov edx, 2
 	int 0x80
 
-	add rsp, 8
 	call print_line_change
 
 	jmp exit
@@ -60,6 +64,6 @@ _start:
 
 	line_change: db	" ", 10
 	cpu_vendor_message: db "The processor vendor ID is: ", 0
-	cpu_vendor: db "xxxxxxxxxxx", 0
+	cpu_vendor: db ""
 	cpu_highest_calling_message: db "The highest calling value is: ", 0
 	cpu_highest_calling_value: db "0x0000", 0
