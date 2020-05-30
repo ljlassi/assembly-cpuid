@@ -1,2 +1,3 @@
-cpuid.o
+*.o
+print_hex
 cpuid
