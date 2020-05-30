@@ -4,8 +4,13 @@ section .text
 _start:
 	mov eax, 0
 	cpuid
-	pop rdi
-	mov [cpu_vendor], edi
+	mov [cpu_vendor], ebx
+	mov [cpu_vendor+4], edx
+	mov [cpu_vendor+8], ecx
+	;mov edi, ebx
+	;mov edi, edx
+	;mov edi, ecx
+	;mov [cpu_vendor], edi
 	;mov eax, cpu_highest_calling_value
 	; mov 28[edi], ebx
 	; mov 32[edi], edx
@@ -16,6 +21,7 @@ _start:
 	mov edx, 29
 	int 0x80
 
+	mov ecx, 0
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, cpu_vendor
@@ -64,6 +70,6 @@ _start:
 
 	line_change: db	" ", 10
 	cpu_vendor_message: db "The processor vendor ID is: ", 0
-	cpu_vendor: db ""
+	cpu_vendor: db "xxxxxxxxxxxx"
 	cpu_highest_calling_message: db "The highest calling value is: ", 0
 	cpu_highest_calling_value: db "0x0000", 0
