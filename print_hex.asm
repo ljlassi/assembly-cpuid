@@ -3,6 +3,10 @@ global _start
 section .text
 _start:
 
+;
+; This file uses modified code, originally from: https://gist.github.com/kthompson/957c635d84b7813945aa9bb649f039b9
+;
+
 nop
         ; get the address of the data segment
          ; store the address in the data segment register

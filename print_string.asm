@@ -1,3 +1,7 @@
+;
+; This file uses modified code, originally from: https://gist.github.com/kthompson/957c635d84b7813945aa9bb649f039b9
+;
+
 print_string:     ; Push registers onto the stack
   pusha
 

@@ -2,19 +2,18 @@ global _start
 
 section .text
 _start:
+
+; This is my own code fully. print_hex.asm and print_string.asm
+; are originally from:
+; https://gist.github.com/kthompson/957c635d84b7813945aa9bb649f039b9
+; Though I have modified the code.
+; Printing hex characters as ASCII does not yet work unfortunately.
+
 	mov eax, 0
 	cpuid
 	mov [cpu_vendor], ebx
 	mov [cpu_vendor+4], edx
 	mov [cpu_vendor+8], ecx
-	;mov edi, ebx
-	;mov edi, edx
-	;mov edi, ecx
-	;mov [cpu_vendor], edi
-	;mov eax, cpu_highest_calling_value
-	; mov 28[edi], ebx
-	; mov 32[edi], edx
-	; mov 36[edi], ecx
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, cpu_vendor_message
