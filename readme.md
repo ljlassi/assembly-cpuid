@@ -9,7 +9,6 @@ Print_hex and print_string files use modified code orignally from: https://gist.
 It does not work yet because the original code is 32-bit and used BIOS interrupts, which I cannot use in 64-bit Linux.
 
 COMPILATION INSTRUCTIONS (program only works for 64-bit Linux):
-nasm -felf64 cpuid.asm
-ld -o cpuid cpuid.asm
+nasm -felf64 cpuid.asm && ld -o cpuid cpuid.o
 
 Work in progress...
