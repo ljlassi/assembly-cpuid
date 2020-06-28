@@ -24,7 +24,7 @@ P1: rol eax,4           ; 1 Nibble (start with highest byte)
     cmp bl,39h          ; above 9?
     jna short P2
     add bl,7            ; "A" to "F"
-P2: add [buffer],bl         ; store ASCII in buffer
+P2: add buffer,bl         ; store ASCII in buffer
     dec cl              ; decrease loop counter
     jnz P1              ; jump if cl is not equal 0 (zeroflag is not set)
 ;-----------------------
