@@ -4,4 +4,4 @@ Attempt to obtain all CPU information with cpuid instruction in assembly languag
 COMPILATION INSTRUCTIONS (program only works for 64-bit Linux):
 nasm -felf64 cpuid.asm -o cpuid.o && gcc -no-pie -o cpuid cpuid.o
 
-Work in progress...
+Work in progress.
