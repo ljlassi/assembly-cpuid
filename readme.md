@@ -17,4 +17,4 @@ COMPILATION INSTRUCTIONS (program only works for 64-bit Linux):
 nasm -felf64 cpuid.asm -o cpuid.o && gcc -no-pie -o cpuid cpuid.o
 >>>>>>> feature/print-hex
 
-Work in progress...
+Work in progress.
