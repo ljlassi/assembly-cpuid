@@ -1,5 +1,6 @@
-Attempt to obtain all CPU information with cpuid instruction in assembly language.
+Attempt to obtain all CPU information with cpuid instruction in assembly language. Currently is able to get and print out the processor vendor and highest calling value.
 
+<<<<<<< HEAD
 Currently compiles and is able to get the CPU vendor, but is unable to print the CPU highest calling value since it is a hexadecimal number.
 
 PLEASE IGNORE other files than cpuid.asm, the other files are stuff I'm experimenting with.
@@ -10,5 +11,10 @@ It does not work yet because the original code is 32-bit and used BIOS interrupt
 
 COMPILATION INSTRUCTIONS (program only works for 64-bit Linux):
 nasm -felf64 cpuid.asm && ld -o cpuid cpuid.o
+=======
+
+COMPILATION INSTRUCTIONS (program only works for 64-bit Linux):
+nasm -felf64 cpuid.asm -o cpuid.o && gcc -no-pie -o cpuid cpuid.o
+>>>>>>> feature/print-hex
 
 Work in progress...
