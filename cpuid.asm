@@ -33,8 +33,6 @@ main:
 	mov edx, 31
 	int 0x80
 
-	call print_line_change
-
 	call print_highest_calling_value
 
 	call print_line_change
