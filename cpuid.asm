@@ -33,7 +33,9 @@ main:
 	mov edx, 31
 	int 0x80
 
-	call print_highest_calling_value
+	mov rsi, cpu_highest_calling_value
+
+	call print_hex
 
 	mov eax, 1
 	cpuid
@@ -44,7 +46,9 @@ main:
 	mov edx, 28
 	int 0x80
 
-	call print_extended_family
+	mov rsi, cpu_extended_family
+
+	call print_hex
 
 	jmp exit
 
@@ -60,8 +64,10 @@ main:
 		pop rdi
 		ret
 
-	print_highest_calling_value:
-	    ; We will use printf C-function for priting the hex.
+	print_hex:
+			; Takes in the message to print from rsi, DOES NOT WORK UNLESS
+			; you remember to pass the stuff to print in rsi.
+	    ; Uses printf C-function for priting the hex.
 
 	    push    rax                     ; caller-save register
 	    push    rcx                     ; caller-save register
@@ -69,7 +75,6 @@ main:
 			dec rdi
 
 	    mov     rdi, format_db             ; set 1st parameter (format)
-	    mov     rsi, cpu_highest_calling_value                ; set 2nd parameter (current_number)
 	    xor     rax, rax                ; because printf is varargs
 
 	    ; Stack is already aligned because we pushed three 8 byte registers
@@ -80,27 +85,6 @@ main:
 			imul rax, rdi
 			pop 		rdi
 	    ret
-
-			print_extended_family:
-					; We will use printf C-function for priting the hex.
-
-					push    rax                     ; caller-save register
-					push    rcx                     ; caller-save register
-					push 		rdi
-					dec rdi
-
-					mov     rdi, format_db             ; set 1st parameter (format)
-					mov     rsi, cpu_extended_family                ; set 2nd parameter (current_number)
-					xor     rax, rax                ; because printf is varargs
-
-					; Stack is already aligned because we pushed three 8 byte registers
-					call    printf                  ; printf(format, current_number)
-
-					pop     rcx                     ; restore caller-save register
-					pop     rax                     ; restore caller-save register
-					imul rax, rdi
-					pop 		rdi
-					ret
 
 	exit:
 		mov edx, 42
