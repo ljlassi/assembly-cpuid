@@ -33,9 +33,22 @@ main:
 	mov edx, 31
 	int 0x80
 
-	call print_highest_calling_value
+	mov rsi, cpu_highest_calling_value
 
-	call print_line_change
+	call print_hex
+
+	mov eax, 1
+	cpuid
+	mov [cpu_extended_family], eax
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, cpu_extended_family_message
+	mov edx, 28
+	int 0x80
+
+	mov rsi, cpu_extended_family
+
+	call print_hex
 
 	jmp exit
 
@@ -51,24 +64,27 @@ main:
 		pop rdi
 		ret
 
-		print_highest_calling_value:
-        ; We will use printf C-function for priting the hex.
+	print_hex:
+			; Takes in the message to print from rsi, DOES NOT WORK UNLESS
+			; you remember to pass the stuff to print in rsi.
+	    ; Uses printf C-function for priting the hex.
 
-        push    rax                     ; caller-save register
-        push    rcx                     ; caller-save register
+	    push    rax                     ; caller-save register
+	    push    rcx                     ; caller-save register
+			push 		rdi
+			dec rdi
 
-        mov     rdi, format             ; set 1st parameter (format)
-        mov     rsi, cpu_highest_calling_value                ; set 2nd parameter (current_number)
-        xor     rax, rax                ; because printf is varargs
+	    mov     rdi, format_db             ; set 1st parameter (format)
+	    xor     rax, rax                ; because printf is varargs
 
-        ; Stack is already aligned because we pushed three 8 byte registers
-        call    printf                  ; printf(format, current_number)
+	    ; Stack is already aligned because we pushed three 8 byte registers
+	    call    printf                  ; printf(format, current_number)
 
-        pop     rcx                     ; restore caller-save register
-        pop     rax                     ; restore caller-save register
-
-        pop     rbx                     ; restore rbx before returning
-        ret
+	    pop     rcx                     ; restore caller-save register
+	    pop     rax                     ; restore caller-save register
+			imul rax, rdi
+			pop 		rdi
+	    ret
 
 	exit:
 		mov edx, 42
@@ -80,7 +96,9 @@ section .data
 
 	line_change: db	" ", 10
 	cpu_vendor_message: db "The processor vendor ID is: ", 0
-	cpu_vendor: db "xxxxxxxxxxxx"
+	cpu_vendor: db "xxxxxxxxxxxx", 0
 	cpu_highest_calling_message: db "The highest calling value is: ", 0
 	cpu_highest_calling_value: dq 0xFFFFFFFF, 0
-	format: db  "%20ld", 10, 0
+	cpu_extended_family_message: db "The extended family ID is: ", 0
+	cpu_extended_family: dq 0xFFFFFFFF, 0
+	format_db: db  "%X", 10, 0
