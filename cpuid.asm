@@ -39,7 +39,8 @@ main:
 	mov eax, 1
 	cpuid
 	mov [cpu_extended_family], eax
-	mov [cpu_model], ah
+	mov [cpu_model], al
+	mov [cpu_type], ah
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, cpu_extended_family_message
@@ -49,7 +50,23 @@ main:
 	mov rsi, [cpu_extended_family]
 	call print_hex
 
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, cpu_model_message
+	mov edx, 17
+	int 0x80
+
 	mov rsi, [cpu_model]
+	call print_hex
+
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, cpu_type_message
+	mov edx, 16
+	int 0x80
+
+
+	mov rsi, [cpu_type]
 	call print_hex
 
 	jmp exit
@@ -96,5 +113,8 @@ section .data
 	cpu_highest_calling_value: dd 0xFFFFFFFF, 0
 	cpu_extended_family_message: db "The extended family ID is: ", 0
 	cpu_extended_family: dd 0xFFFFFFFF, 0
+	cpu_model_message: db "CPU model ID is: ", 0
 	cpu_model: dd 0xFF, 0
+	cpu_type_message: db "CPU type ID is: ", 0
+	cpu_type: dd 0xFF, 0
 	format_db: db  "0x%LX", 10, 0
